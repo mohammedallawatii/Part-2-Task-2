@@ -42,19 +42,9 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Complete the main function
 int main() {
-   // Define global variables
-char filename[] = "FitnessData_2023.csv"; // open file
-FITNESS_DATA *data;
-int numRecords;
 
-// import data from a file
-int importData() {
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        printf("Error: could not open file\n");
-        return 1;
-    }
-}
+
+
 
 // Function to display menu and handle user input
 void displayMenu() {
@@ -74,10 +64,36 @@ void displayMenu() {
 
         switch (option) {
             case 'A':
-                importData();
+                void importData() {
+                    // make a filname for the data
+    const char *filename = "FitnessData_2023.csv";
+
+    // open the file with as reading only and if it is not there a message will be diplayed which shows that there is no file.
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        fprintf(stderr, "Error: Unable to open the file %s\n", filename);
+        return 1;
+    }
+    char line[100];  // the line[100] means that the line will not be more that 100 characters
+    int rows = 0; // create counter for the number of rows
+
+    char date[100];
+    char time[100]; // making an array 
+    char steps[100];
+
+    FITNESS_DATA data[100];
+
+    while(fgets(line, 100, file) != NULL) {
+        tokeniseRecord(line, ",", date, time, steps); // use function to seperate lines
+        strcpy(data[rows].date, date); // storing the data in a list
+        strcpy(data[rows].time, time);
+        data[rows].steps = atoi(steps);
+        rows++; // increment number of rows
+    }
+}
                 break;
             case 'B':
-                displayTotalRecords();
+                printf("Total records: %d\n", numRecords);
                 break;
             case 'C':
                 findFewestSteps();
@@ -101,4 +117,5 @@ void displayMenu() {
     }
 }
 }
+
 
