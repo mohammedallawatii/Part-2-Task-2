@@ -30,10 +30,10 @@ int main() {
     char filename[100];
     char outputFilename[105];
     FILE *file;
-    FitnessData data[1000]; // Adjust size as needed
+    FitnessData data[1000];
     int count = 0;
 
-    // 1. Prompt for Filename
+    // filename
     printf("Enter filename:\n");
     scanf("%s", filename);
 
@@ -44,16 +44,16 @@ int main() {
         return 1;
     }
 
-    // 2. File Validation and Reading
+
     char line[100];
     while (fgets(line, sizeof(line), file)) {
-        // Remove newline character if present
+        
         line[strcspn(line, "\n")] = 0;
 
-        // Tokenize and store data
+        //store data
         tokeniseRecord(line, ',', data[count].date, data[count].time, &data[count].steps);
         
-        // Validate data
+        // validate data
         if (strlen(data[count].date) != 10 || strlen(data[count].time) != 5) {
             printf("Error: invalid file\n");
             fclose(file);
@@ -63,18 +63,18 @@ int main() {
     }
     fclose(file);
 
-    // 3. Sorting the Data
+    // sorting data
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - i - 1; j++) {
-            if (data[j].steps < data[j + 1].steps) {
-                FitnessData temp = data[j];
-                data[j] = data[j + 1];
-                data[j + 1] = temp;
+            if (data[j].steps < data[j + 1].steps) { // swap the records if j is less than j+1
+                FitnessData temp = data[j]; //storing element in temp
+                data[j] = data[j + 1]; // replacing the element with the next element
+                data[j + 1] = temp; 
             }
         }
     }
 
-    // 4. Writing to Output File
+    //the output file
     strcpy(outputFilename, filename);
     strcat(outputFilename, ".tsv");
     file = fopen(outputFilename, "w");
@@ -88,7 +88,7 @@ int main() {
     }
     fclose(file);
 
-    // 5. Successful Completion
+
     return 0;
     
 }
