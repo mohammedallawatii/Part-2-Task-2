@@ -28,7 +28,9 @@ void displayMenu() {
 int fileInput() {
     char filename[100];
 
+    
     printf("Input filename: ");
+    scanf("%s", filename);
     if (strcmp(filename, "FitnessData_2023.csv") != 0) {
         fprintf(stderr, "Incorrectly named data file\n");
         return 1;
@@ -50,7 +52,7 @@ void numberOfRecords() {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         fprintf(stderr, "Error: Unable to open the file %s\n", filename);
-        return 1;
+        exit(1);
     }
     char line[100];  // the line[100] means that the line will not be more that 100 characters
     int rows = 0; // create counter for the number of rows
@@ -79,7 +81,7 @@ void fewestSteps() {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         fprintf(stderr, "Error: Unable to open the file %s\n", filename);
-        return 1;
+        exit(1);
     }
     char line[100];  // the line[100] means that the line will not be more that 100 characters
     int rows = 0; // create counter for the number of rows
@@ -96,7 +98,7 @@ void fewestSteps() {
         strcpy(data[rows].date, date); // storing the data in a list
         strcpy(data[rows].time, time);
         data[rows].steps = atoi(steps);
-        stepArray = atoi(steps);
+        stepArray[rows] = atoi(steps);
         rows++; // increment number of rows
     }
 
@@ -121,7 +123,7 @@ void largestSteps() {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         fprintf(stderr, "Error: Unable to open the file %s\n", filename);
-        return 1;
+        exit(1);
     }
     char line[100];  // the line[100] means that the line will not be more that 100 characters
     int rows = 0; // create counter for the number of rows
@@ -138,12 +140,12 @@ void largestSteps() {
         strcpy(data[rows].date, date); // storing the data in a list
         strcpy(data[rows].time, time);
         data[rows].steps = atoi(steps);
-        stepArray = atoi(steps);
+        stepArray[rows] = atoi(steps);
         rows++; // increment number of rows
     }
 
-    int smallest = stepArray[0]; // Assume the first element is the smallest
-    int index_of_smallest = 0; // Index of the smallest number
+    int largest = stepArray[0]; // Assume the first element is the smallest
+    int index_of_largest = 0; // Index of the smallest number
 
     for (int i = 1; i < rows; i++) {
         if (stepArray[i] > largest) {
@@ -163,7 +165,7 @@ void meanNumber() {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         fprintf(stderr, "Error: Unable to open the file %s\n", filename);
-        return 1;
+        exit(1);
     }
     char line[100];  // the line[100] means that the line will not be more that 100 characters
     int rows = 0; // create counter for the number of rows
@@ -180,20 +182,21 @@ void meanNumber() {
         strcpy(data[rows].date, date); // storing the data in a list
         strcpy(data[rows].time, time);
         data[rows].steps = atoi(steps);
-        stepArray = atoi(steps);
+        stepArray[rows] = atoi(steps);
         rows++; // increment number of rows
     }
     
     int sum = 0;
+    int mean;
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < rows; i++) {
         sum += stepArray[i];
     }
 
     // Calculate the mean
     mean = (int)sum / rows;
 
-    printf("Mean step count: \n")
+    printf("Mean step count: %d\n", mean);
 
 }
 
@@ -205,7 +208,7 @@ void longestPeriod() {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         fprintf(stderr, "Error: Unable to open the file %s\n", filename);
-        return 1;
+        exit(1);
     }
     char line[100];  // the line[100] means that the line will not be more that 100 characters
     int rows = 0; // create counter for the number of rows
@@ -222,7 +225,7 @@ void longestPeriod() {
         strcpy(data[rows].date, date); // storing the data in a list
         strcpy(data[rows].time, time);
         data[rows].steps = atoi(steps);
-        stepArray = atoi(steps);
+        stepArray[rows] = atoi(steps);
         rows++; // increment number of rows
     }
 
@@ -232,9 +235,10 @@ void longestPeriod() {
     int currentLength = 0;
     int endIndex = 0;
     int startIndex = 0;
+    int threshold = 500;
 
-    for (int i = 0; i < size; i++) {
-        if (arr[i] > threshold) {
+    for (int i = 0; i < rows; i++) {
+        if (stepArray[i] > threshold) {
             if (currentLength == 0) {
                 currentStart = i; // Start of a new sequence
             }
@@ -253,13 +257,13 @@ void longestPeriod() {
     if (currentLength > maxLength) {
         maxLength = currentLength;
         maxStart = currentStart;
-        endIndex = size - 1;
+        endIndex = rows - 1;
     }
 
     startIndex = maxStart;
 
-    printf("Longest period start: %s %s\n", instances[LSSI].date, instances[LSSI].time);
-    printf("Longest period end: %s %s\n", instances[LSEI].date, instances[LSEI].time);
+    printf("Longest period start: %s %s\n", data[startIndex].date, data[startIndex].time);
+    printf("Longest period end: %s %s\n", data[endIndex].date, data[endIndex].time);
 }
 
 void tokeniseRecord(const char *input, const char *delimiter,
@@ -298,7 +302,7 @@ int main() {
 
    do{
     displayMenu();
-    scanf("%c", &choice);
+    scanf(" %c", &choice);
 
     switch (choice) {
         case 'a':
@@ -330,7 +334,6 @@ int main() {
             break;
         case 'q':
         case 'Q':
-            quit();
             break;
         default:
             printf("Invalid choice. Try again.\n");
