@@ -297,7 +297,7 @@ int main() {
    char choice;
 
    do{
-    DisplayMenu();
+    displayMenu();
     scanf("%c", &choice);
 
     switch (choice) {
@@ -305,7 +305,7 @@ int main() {
         case 'A':
             answer = fileInput();
             if (answer == 0) {
-                printf("File successfully loaded.\n")
+                printf("File successfully loaded.\n");
             }
             break;
         case 'b':
@@ -330,7 +330,7 @@ int main() {
             break;
         case 'q':
         case 'Q':
-            Quit();
+            quit();
             break;
         default:
             printf("Invalid choice. Try again.\n");
