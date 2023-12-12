@@ -13,6 +13,8 @@
 // Inputs: character array representing a row; the delimiter character
 // Ouputs: date character array; time character array; steps character array
 // Define global variables
+
+//creating the display menu where the user can choose from
 void displayMenu() {
     printf("\nMenu Options:\n");
   printf("A: Specify the filename to be imported\n");
@@ -25,10 +27,10 @@ void displayMenu() {
   printf("Enter choice: ");
 }
 
-int fileInput() {
+int fileInput() { //check if the filename is correct and if it opens correctly
     char filename[100];
 
-    
+
     printf("Input filename: ");
     scanf("%s", filename);
     if (strcmp(filename, "FitnessData_2023.csv") != 0) {
@@ -102,8 +104,8 @@ void fewestSteps() {
         rows++; // increment number of rows
     }
 
-    int smallest = stepArray[0]; // Assume the first element is the smallest
-    int index_of_smallest = 0; // Index of the smallest number
+    int smallest = stepArray[0]; // Assume the element is the smallest
+    int index_of_smallest = 0; // Index of smallest number
 
     for (int i = 1; i < rows; i++) {
         if (stepArray[i] < smallest) {
@@ -112,7 +114,7 @@ void fewestSteps() {
         }
     }
     
-    printf("Fewest steps: %s %s\n", data[index_of_smallest].date, data[index_of_smallest].time); // printing the number of rows
+    printf("Fewest steps: %s %s\n", data[index_of_smallest].date, data[index_of_smallest].time); // //print the time and dat of fewest steps
 }
 
 void largestSteps() {
@@ -144,8 +146,8 @@ void largestSteps() {
         rows++; // increment number of rows
     }
 
-    int largest = stepArray[0]; // Assume the first element is the smallest
-    int index_of_largest = 0; // Index of the smallest number
+    int largest = stepArray[0]; // Assume the element is the largest
+    int index_of_largest = 0; // Index of largest number
 
     for (int i = 1; i < rows; i++) {
         if (stepArray[i] > largest) {
@@ -154,7 +156,7 @@ void largestSteps() {
         }
     }
     
-    printf("Fewest steps: %s %s\n", data[index_of_largest].date, data[index_of_largest].time); // printing the number of rows
+    printf("Fewest steps: %s %s\n", data[index_of_largest].date, data[index_of_largest].time); //print the time and dat of largets number of steps
 }
 
 void meanNumber() {
@@ -193,7 +195,7 @@ void meanNumber() {
         sum += stepArray[i];
     }
 
-    // Calculate the mean
+    // caculate mean
     mean = (int)sum / rows;
 
     printf("Mean step count: %d\n", mean);

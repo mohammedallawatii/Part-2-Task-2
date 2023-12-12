@@ -19,6 +19,5 @@ void fewestSteps();
 void largestSteps();
 void meanNumber();
 void longestPeriod();
-void quit();
 
 #endif // FITNESS_DATA_STRUCT_H
