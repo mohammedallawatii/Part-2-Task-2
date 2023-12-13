@@ -44,7 +44,6 @@ int main() {
         return 1;
     }
 
-
     char line[100];
     while (fgets(line, sizeof(line), file)) {
         
@@ -85,9 +84,11 @@ int main() {
 
     for (int i = 0; i < count; i++) {
         fprintf(file, "%s\t%s\t%d\n", data[i].date, data[i].time, data[i].steps);
+
     }
     fclose(file);
 
+    printf("Data sorted and written to FitnessData_2023.csv.tsv\n");
 
     return 0;
     
