@@ -313,6 +313,9 @@ int main() {
             if (answer == 0) {
                 printf("File successfully loaded.\n");
             }
+            else if(answer == 1) {
+                exit(0);
+            }
             break;
         case 'b':
         case 'B':
